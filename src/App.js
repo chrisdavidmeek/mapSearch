@@ -8,8 +8,8 @@ function App() {
   const [note, setNote] = React.useState("Not close to the gym");
   const [arrived, setArrive] = React.useState(false);
 
-  // const gym = { x: 39.768996942, y: -86.17166598 };
-  const gym = { x: 39.6689408, y: -86.147072 };
+  const gym = { x: 39.768996942, y: -86.17166598 };
+
   const onChange = ({ coords }) => {
     setPosition({
       x: coords.latitude,
