@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [position, setPosition] = React.useState({}); //holds x and y positions
+  const [error, setError] = React.useState(null);
+  const [note, setNote] = React.useState("Not close to the gym");
+  const [arrived, setArrive] = React.useState(false);
+
+  // const gym = { x: 39.768996942, y: -86.17166598 };
+  const gym = { x: 39.6689408, y: -86.147072 };
+  const onChange = ({ coords }) => {
+    setPosition({
+      x: coords.latitude,
+      y: coords.longitude,
+    });
+  };
+  const onError = (error) => {
+    setError(error.message);
+  };
+
+  const changeButton = () => {
+    setArrive(!arrived);
+  };
+
+  React.useEffect(() => {
+    const geo = navigator.geolocation; //db based off of current location
+
+    if (position.x === gym.x && position.y === gym.y) {
+      setNote("You have arrived");
+    } else {
+    }
+
+    let watcher = geo.watchPosition(onChange, onError);
+    return () => geo.clearWatch(watcher);
+  }, [arrived]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{position.x}</h1>
+      <br />
+      <h1>{position.y}</h1>
+      <div>{note}</div>
+      <button onClick={changeButton}>Click to see</button>
     </div>
   );
 }
